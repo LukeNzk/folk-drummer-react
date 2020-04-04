@@ -2,11 +2,16 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from 'components/App';
 import * as serviceWorker from 'serviceWorker';
+import AudioUtils, { AudioUtilsProvider } from 'common/AudioUtils';
+
+const audioUtils = new AudioUtils();
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <AudioUtilsProvider value={audioUtils}>
+    <React.StrictMode>
+      <App/>
+    </React.StrictMode>
+  </AudioUtilsProvider>,
   document.getElementById('root')
 );
 
