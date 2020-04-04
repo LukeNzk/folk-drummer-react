@@ -1,11 +1,11 @@
 import React from 'react';
 import Header from 'components/Header';
 import DrumSettings from 'components/DrumSettings';
+import AudioPlayer from 'components/AudioPlayer';
 
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Container from '@material-ui/core/Container';
-
 
 const theme = createMuiTheme({
   palette: {
@@ -45,6 +45,7 @@ const AppContainer = () => withTheme(() => {
       </header>
       <section>
         <DrumSettings/>
+        <AudioPlayer/>
       </section>
     </Container>
   );
