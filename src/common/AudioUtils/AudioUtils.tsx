@@ -22,16 +22,13 @@ class AudioUtils {
       return req;
     };
 
-    const result = new Promise<AudioBufferSourceNode>((resolve, reject) => {
+    const result = new Promise<AudioBuffer>((resolve, reject) => {
         const req = createRequest();
         req.onload = () => {
           const ctx = this.context;
           
           ctx.decodeAudioData(req.response, (buffer: AudioBuffer) => {
-            const source = ctx.createBufferSource();
-            source.buffer = buffer;
-            source.connect(ctx.destination);
-            resolve(source);
+            resolve(buffer);
           });
         }
 
@@ -40,6 +37,13 @@ class AudioUtils {
     });
 
     return result;
+  }
+
+  play = (buffer: AudioBuffer) => {
+    const source = this.context.createBufferSource();
+    source.buffer = buffer;
+    source.connect(this.context.destination);
+    source.start();
   }
 }
 
