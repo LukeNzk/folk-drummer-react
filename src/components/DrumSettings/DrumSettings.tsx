@@ -1,33 +1,50 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react';
+
+import { 
+  connect, 
+  ConnectedProps // eslint-disable-line no-unused-vars
+} from 'react-redux';
+import { 
+  Dispatch, // eslint-disable-line no-unused-vars  
+  bindActionCreators 
+} from 'redux';
+
+import {
+  RootState, // eslint-disable-line no-unused-vars
+  updateTempo
+} from 'state';
 
 import TempoEdit from './TempoEdit';
 import PhraseLengthEdit from './PhraseLengthEdit';
 
 import Typography from '@material-ui/core/Typography';
 
-class DrumSettings extends Component<{}, {
-  tempo: number;
-  phraseLength: number;
-}> {
-  constructor(props: any) {
-    super(props);
-    this.state = {
-      tempo: 120,
-      phraseLength: 1
-    };
-  }
+const mapState = (state: RootState) => ({
+  settings: state.drumSettings
+});
 
-  render() {
-    const { tempo, phraseLength } = this.state;
+const mapDispatch = (dispatch: Dispatch) => bindActionCreators({ updateTempo }, dispatch);
 
-    return (
-      <React.Fragment>
-        <Typography>Settings</Typography>
-        <TempoEdit value={tempo} onChange={e => this.setState({ tempo: e })}/>
-        <PhraseLengthEdit value={phraseLength} onChange={e => this.setState({ phraseLength: e })} />
-      </React.Fragment>
-    );
-  }
+const connector = connect(mapState, mapDispatch);
+type Props = ConnectedProps<typeof connector>;
+
+function DrumSettings(props: Props) {
+  const [ phraseLength, setPhraseLength ] = useState(1);
+  const tempo = props.settings.tempo;
+
+  const handleTempoChange = (val: number) => {
+    props.updateTempo(val);
+  };
+
+  return (
+    <React.Fragment>
+      <Typography>Settings</Typography>
+      <TempoEdit value={tempo} onChange={e => handleTempoChange(e)}/>
+      <PhraseLengthEdit value={phraseLength} onChange={e => setPhraseLength(e)} />
+    </React.Fragment>
+  );
 }
 
-export default DrumSettings;
+export default connector(DrumSettings);
+
+export { DrumSettings };

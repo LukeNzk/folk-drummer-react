@@ -45,7 +45,7 @@ const AppContainer = () => withTheme(() => {
       </header>
       <section>
         <DrumSettings/>
-          <AudioPlayer/>
+        <AudioPlayer/>
       </section>
     </Container>
   );
