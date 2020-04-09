@@ -77,6 +77,8 @@ class AudioTrackPlayer {
   stop = () => {
     this.clear();
   }
+
+  get generator() { return this._trackGenerator; }
 }
 
 export default AudioTrackPlayer;

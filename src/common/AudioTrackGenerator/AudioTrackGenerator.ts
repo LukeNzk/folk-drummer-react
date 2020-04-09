@@ -16,6 +16,10 @@ class AudioTrackGenerator {
   set bpm(val: number) {
     const clamped = Math.max(1, val);
     this._interval = 60 / clamped;
+
+    this._beats.forEach(beat => {
+      beat.time = this._interval;
+    });
   }
 
   get interval(): number { return this._interval; }
