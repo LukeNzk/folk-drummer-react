@@ -27,7 +27,7 @@ function PlayButton(props: Props) {
   return (
     <IconButton onClick={handleOnClick} className={classes.icon}>
       {isPlaying ? <PauseIcon fontSize="inherit"/> : <PlayArrowIcon fontSize="inherit"/> }
-    </IconButton>  
+    </IconButton>
   );
 }
 
