@@ -6,6 +6,7 @@ import AudioUtils from 'common/AudioUtils'; // eslint-disable-line no-unused-var
 import { isNullOrUndefined, isNull } from 'util';
 import BeatInfo from 'common/AudioTrackGenerator/BeatInfo'; // eslint-disable-line no-unused-vars
 
+type BeatChangedCallback = (beat: BeatInfo) => void;
 class AudioTrackPlayer {
   private _trackGenerator: AudioTrackGenerator;
   private _clips: Array<ClipProvider>;
@@ -14,12 +15,17 @@ class AudioTrackPlayer {
   private _timeSinceLastBeat = 0;
   private _currentBeat: BeatInfo | null = null;
 
-  constructor(audio: AudioUtils | undefined) {
+  private _onBeatChanged: (beat: BeatInfo) => void;
+
+  constructor(
+    audio: AudioUtils | undefined, 
+    beatChangedCallback : BeatChangedCallback) {
     this._trackGenerator = new AudioTrackGenerator();
     this._trackGenerator.beatsPerMeasure = 3;
     this._clips = [];
     this._audioUtils = audio as AudioUtils;
     this.loadClips();
+    this._onBeatChanged = beatChangedCallback;
   }
 
   private loadClips = () => {
@@ -56,18 +62,26 @@ class AudioTrackPlayer {
       if (clip.buffer) {
         this._audioUtils.play(clip.buffer);
       }
+      
+      this.nextBeat();
     }
   }
 
+  private nextBeat = () => {
+    this._currentBeat = this._trackGenerator.next();
+    this._onBeatChanged(this._currentBeat);
+  }
+  
   start = () => {
     this.clear();
     const interval = 16; // ms
     let time = Date.now();
-    const loop = () => {
+    this.nextBeat();
+
+      const loop = () => {
       const now = Date.now();
       const deltaTime = now - time;
       time = now;
-      this._currentBeat = this._trackGenerator.next();
       this.tick(deltaTime / 1000);
     }
 
