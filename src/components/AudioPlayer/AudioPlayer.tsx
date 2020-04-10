@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useCallback, useMemo } from 'react';
 import { connect } from 'react-redux';
 import PlayButton from './PlayButton';
 import { AudioUtilsContext } from 'common/AudioUtils';
@@ -27,14 +27,34 @@ function AudioPlayer(props: Props) {
 
   const audioUtils = useContext(AudioUtilsContext);
 
-  player && updatePlayer(settings);
-  const onBeatChanged = (beat: BeatInfo) => {
+  const onBeatChanged = useCallback((beat: BeatInfo) => {
     setBeatIndex(beat.index);
+  }, []);
+
+  const onKeyDown = (e:  KeyboardEvent) => {
+    if (e.code === 'Space') {
+      handleTogglePlaying();
+    }
+  }
+  
+  document.addEventListener('keydown', onKeyDown, false);
+
+  useMemo(() => {
+    if (isUndefined(player)) {
+      console.log("player init");
+      player = new AudioTrackPlayer(audioUtils);
+    }
+  }, [audioUtils]);
+
+  if (player) {
+    player.setOnBeatChanged(onBeatChanged);
+    updatePlayer(settings);
   }
 
   const handleTogglePlaying = () => {
     if (isUndefined(player)) {
-      player = new AudioTrackPlayer(audioUtils, onBeatChanged);
+      console.log("player init");
+      player = new AudioTrackPlayer(audioUtils);
       player.setBeatOffset(1, -0.2);
     }
 

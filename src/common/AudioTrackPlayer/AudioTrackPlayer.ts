@@ -15,17 +15,19 @@ class AudioTrackPlayer {
   private _timeSinceLastBeat = 0;
   private _currentBeat: BeatInfo | null = null;
 
-  private _onBeatChanged: BeatChangedCallback;
+  private _onBeatChanged!: BeatChangedCallback;
 
   constructor(
-    audio: AudioUtils | undefined, 
-    beatChangedCallback : BeatChangedCallback) {
+    audio: AudioUtils | undefined) {
     this._trackGenerator = new AudioTrackGenerator();
     this._trackGenerator.beatsPerMeasure = 3;
     this._clips = [];
     this._audioUtils = audio as AudioUtils;
     this.loadClips();
-    this._onBeatChanged = beatChangedCallback;
+  }
+
+  setOnBeatChanged = (callback: BeatChangedCallback) => {
+    this._onBeatChanged = callback;
   }
 
   private loadClips = async () => {
