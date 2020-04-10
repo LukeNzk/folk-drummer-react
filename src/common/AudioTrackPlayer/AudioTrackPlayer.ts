@@ -101,9 +101,9 @@ class AudioTrackPlayer {
     const offset = this._currentBeat.offset;
     const time = this._currentBeat.time;
     const timeOffset = time * offset;
-    const interval = time + timeOffset + tempoOscilationInterval;
+    const interval = time + timeOffset - tempoOscilationInterval;
     if (this._timeSinceLastBeat >= interval) {
-      this._timeSinceLastBeat -= time;
+      this._timeSinceLastBeat -= time - tempoOscilationInterval;
       let clip = this.getClipProvider(this._currentBeat.index).next();
 
       const skippingBeatChance = [0.0, 0.0, 0.2];

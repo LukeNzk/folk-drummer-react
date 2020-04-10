@@ -41,7 +41,7 @@ const AppContainer = () => withTheme(() => {
   return (
     <Container maxWidth='xs'>
       <header>
-        <Header text="Metronome"/>
+        <Header text="Frame drum machine"/>
       </header>
       <section>
         <DrumSettings/>

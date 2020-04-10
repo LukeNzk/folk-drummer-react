@@ -13,6 +13,8 @@ import {
 
 import TempoEdit from './TempoEdit';
 import PhraseLengthEdit from './PhraseLengthEdit';
+import BeatOffsetEdit from './BeatOffsetEdit';
+import TempoOscilationEdit from './TempoOscilationEdit';
 
 let wrapper: ShallowWrapper | null;
 
@@ -41,6 +43,14 @@ describe('Drum settings', () => {
   });
 
   it("draws phrase length edit", () => {
-    expect(wrapper!.find(PhraseLengthEdit)).to.have.lengthOf(1);
+    expect(wrapper!.find(PhraseLengthEdit)).to.have.lengthOf(0);
+  });
+
+  it("draws beat offset edit", () => {
+    expect(wrapper!.find(BeatOffsetEdit)).to.have.lengthOf(1);
+  });
+
+  it("draws tempo oscilation edit", () => {
+    expect(wrapper!.find(TempoOscilationEdit)).to.have.lengthOf(1);
   });
 });

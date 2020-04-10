@@ -29,7 +29,8 @@ function TempoOscilationEdit(props: Props) {
           <Slider
             value={value}
             min={0}
-            max={50}
+            max={10}
+            step={0.1}
             onChange={(e, val) => handleValueChange(val)}
           />
         </Grid>

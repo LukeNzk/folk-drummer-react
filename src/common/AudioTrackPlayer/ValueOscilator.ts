@@ -24,12 +24,11 @@ class ValueOscilator {
   tick = (dt: number) => {
     this._directionCooldown -= dt;
     if (this._directionCooldown <= 0) {
-      this._directionCooldown = 4; // seconds
+      this._directionCooldown = Math.random() * 8; // seconds
       this._target = Math.random() * this._max;
     }
 
-    this._value = lerp(this._value, this._target, 0.5 * dt);
-    console.log("target: " + this._value);
+    this._value = lerp(this._value, this._target, 0.2 * dt);
   }
 }
 

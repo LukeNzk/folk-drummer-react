@@ -9,7 +9,7 @@ import {
 const initialState: DrumSettingsState = {
   tempo: 190,
   beatOffset: -0.18,
-  tempoOscilation: 10
+  tempoOscilation: 1
 }
 
 export function drumSettingsReducer(state = initialState, action: SettingsActionTypes): DrumSettingsState {

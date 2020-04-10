@@ -51,7 +51,6 @@ function DrumSettings(props: Props) {
 
   return (
     <React.Fragment>
-      <Typography>Settings</Typography>
       <TempoEdit value={tempo} onChange={e => handleTempoChange(e)}/>
       <BeatOffsetEdit value={100 * beatOffset} onChange={handleBeatOffsetChange}/>
       <TempoOscilationEdit value={tempoOscilation} onChange={handleTempoOscilationChange}/>
