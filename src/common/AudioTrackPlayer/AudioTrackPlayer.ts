@@ -1,7 +1,7 @@
 import AudioTrackGenerator from 'common/AudioTrackGenerator';
 import ClipProvider from 'common/ClipProvider';
 import { AudioClip } from 'common/ClipProvider';
-import click1 from 'assets/click1.wav';
+import assets from 'assets/sfx';
 import AudioUtils from 'common/AudioUtils'; // eslint-disable-line no-unused-vars
 import { isNullOrUndefined, isNull } from 'util';
 import BeatInfo from 'common/AudioTrackGenerator/BeatInfo'; // eslint-disable-line no-unused-vars
@@ -28,15 +28,43 @@ class AudioTrackPlayer {
     this._onBeatChanged = beatChangedCallback;
   }
 
-  private loadClips = () => {
-    const clipProvider = new ClipProvider();
-    this._clips.push(clipProvider);
+  private loadClips = async () => {
+    const sounds = await assets.sounds();
 
-    this._audioUtils.loadClip(click1).then((buffer) => {
-      const clip = new AudioClip();
-      clip.buffer = buffer;
-      clipProvider.push(clip);      
+    const loaders = Object.keys(sounds).map((key, index) => {
+      const files = sounds[key].files;
+      const result = this.loadClipFiles(files).then(clips => {
+        const clipProvider = new ClipProvider();
+        clips.forEach(clip => clipProvider.push(clip));
+        this._clips[index] = clipProvider;
+      });
+
+      return result;
     });
+
+    await Promise.all(loaders);
+  }
+
+  private loadClipFiles = (files: Array<string>) => {
+    const result = new Promise<Array<AudioClip>>((resolve) => {
+      let audioClips: Array<AudioClip> = [];
+      
+      const onClipLoaded = (buffer: AudioBuffer) => {
+        const clip = new AudioClip();
+        clip.buffer = buffer;
+        audioClips.push(clip);
+        if (audioClips.length === files.length) {
+          // loaded all files
+          resolve(audioClips);
+        }
+      };
+
+      for(const file of files) {
+        this._audioUtils.loadClip(file).then(onClipLoaded);
+      }
+    });
+
+    return result;
   }
   
   private clear = () => {
@@ -45,6 +73,15 @@ class AudioTrackPlayer {
     }
 
     this._timeSinceLastBeat = 0;
+  }
+
+  private getClipProvider = (beatIndex: Number) => {
+    if (beatIndex === 0) {
+      return this._clips[0];
+    }
+    else {
+      return this._clips[2];
+    }
   }
 
   private tick = (dt: number) => {
@@ -57,13 +94,14 @@ class AudioTrackPlayer {
     const time = this._currentBeat.time;
     const interval = time + offset;
     if (this._timeSinceLastBeat >= interval) {
+      this.nextBeat();
+
       this._timeSinceLastBeat -= time;
-      const clip = this._clips[0].next();
+      const clip = this.getClipProvider(this._currentBeat.index).next();
+
       if (clip.buffer) {
         this._audioUtils.play(clip.buffer);
       }
-      
-      this.nextBeat();
     }
   }
 
