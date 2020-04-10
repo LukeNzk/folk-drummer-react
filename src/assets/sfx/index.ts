@@ -20,7 +20,7 @@ const getSounds = async () => {
   Object.keys(sfxList).forEach(key => {
     const category = sfxList[key];
     for(let i = 0; i < category.files.length; ++i) {
-      const importing = import(category.dir + category.files[i] + '.wav').then(asset => {
+      const importing = import(category.dir + category.files[i] + '.mp3').then(asset => {
         category.files[i] = asset.default;
       });
       promises.push(importing);
