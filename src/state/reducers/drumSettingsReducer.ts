@@ -6,7 +6,7 @@ import {
 } from 'state/types';
 
 const initialState: DrumSettingsState = {
-  tempo: 180,
+  tempo: 190,
   beatOffset: -0.18 
 }
 

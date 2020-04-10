@@ -5,6 +5,7 @@ import assets from 'assets/sfx';
 import AudioUtils from 'common/AudioUtils'; // eslint-disable-line no-unused-vars
 import { isNullOrUndefined, isNull } from 'util';
 import BeatInfo from 'common/AudioTrackGenerator/BeatInfo'; // eslint-disable-line no-unused-vars
+import ValueOscilator from './ValueOscilator';
 
 type BeatChangedCallback = (beat: BeatInfo) => void;
 class AudioTrackPlayer {
@@ -14,6 +15,7 @@ class AudioTrackPlayer {
   private _loopHandle!: number;
   private _timeSinceLastBeat = 0;
   private _currentBeat: BeatInfo | null = null;
+  private _tempoOscilator = new ValueOscilator();
 
   private _onBeatChanged!: BeatChangedCallback;
 
@@ -24,6 +26,7 @@ class AudioTrackPlayer {
     this._clips = [];
     this._audioUtils = audio as AudioUtils;
     this.loadClips();
+    this._tempoOscilator.setOscilationValue(10);
   }
 
   setOnBeatChanged = (callback: BeatChangedCallback) => {
@@ -92,11 +95,14 @@ class AudioTrackPlayer {
       return;
     }
 
+    this._tempoOscilator.tick(dt);
+    const tempoOscilationInterval = this._tempoOscilator.value / 60;
+
     this._timeSinceLastBeat += dt;
     const offset = this._currentBeat.offset;
     const time = this._currentBeat.time;
     const timeOffset = time * offset;
-    const interval = time + timeOffset;
+    const interval = time + timeOffset + tempoOscilationInterval;
     if (this._timeSinceLastBeat >= interval) {
       this._timeSinceLastBeat -= time;
       let clip = this.getClipProvider(this._currentBeat.index).next();
