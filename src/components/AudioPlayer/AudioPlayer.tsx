@@ -35,6 +35,7 @@ function AudioPlayer(props: Props) {
   const handleTogglePlaying = () => {
     if (isUndefined(player)) {
       player = new AudioTrackPlayer(audioUtils, onBeatChanged);
+      player.setBeatOffset(1, -0.2);
     }
 
     if (!isPlaying) {
