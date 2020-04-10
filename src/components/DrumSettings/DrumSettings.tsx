@@ -11,12 +11,13 @@ import {
 
 import {
   RootState, // eslint-disable-line no-unused-vars
-  updateTempo, updateBeatOffset
+  updateTempo, updateBeatOffset, updateTempoOscilation
 } from 'state';
 
 import TempoEdit from './TempoEdit';
 import PhraseLengthEdit from './PhraseLengthEdit';
 import BeatOffsetEdit from './BeatOffsetEdit';
+import TempoOscilationEdit from './TempoOscilationEdit';
 
 import Typography from '@material-ui/core/Typography';
 
@@ -27,14 +28,14 @@ const mapState = (state: RootState) => ({
 const mapDispatch = (dispatch: Dispatch) => bindActionCreators({
   updateTempo,
   updateBeatOffset,
+  updateTempoOscilation
 }, dispatch);
 
 const connector = connect(mapState, mapDispatch);
 type Props = ConnectedProps<typeof connector>;
 
 function DrumSettings(props: Props) {
-  const [ phraseLength, setPhraseLength ] = useState(1);
-  const { tempo, beatOffset } = props.settings;
+  const { tempo, beatOffset, tempoOscilation } = props.settings;
 
   const handleTempoChange = (val: number) => {
     props.updateTempo(val);
@@ -44,12 +45,16 @@ function DrumSettings(props: Props) {
     props.updateBeatOffset(val);
   }
 
+  const handleTempoOscilationChange = (val: number) => {
+    props.updateTempoOscilation(val);
+  }
+
   return (
     <React.Fragment>
       <Typography>Settings</Typography>
       <TempoEdit value={tempo} onChange={e => handleTempoChange(e)}/>
       <BeatOffsetEdit value={100 * beatOffset} onChange={handleBeatOffsetChange}/>
-      <PhraseLengthEdit value={phraseLength} onChange={e => setPhraseLength(e)} />
+      <TempoOscilationEdit value={tempoOscilation} onChange={handleTempoOscilationChange}/>
     </React.Fragment>
   );
 }

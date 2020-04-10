@@ -1,13 +1,15 @@
 import {
   UPDATE_TEMPO,
   UPDATE_BEAT_OFFSET,
+  UPDATE_TEMPO_OSCILATION,
   SettingsActionTypes, // eslint-disable-line no-unused-vars
   DrumSettingsState // eslint-disable-line no-unused-vars
 } from 'state/types';
 
 const initialState: DrumSettingsState = {
   tempo: 190,
-  beatOffset: -0.18 
+  beatOffset: -0.18,
+  tempoOscilation: 10
 }
 
 export function drumSettingsReducer(state = initialState, action: SettingsActionTypes): DrumSettingsState {
@@ -22,6 +24,11 @@ export function drumSettingsReducer(state = initialState, action: SettingsAction
         ...state,
         beatOffset: action.payload
       };
+    case UPDATE_TEMPO_OSCILATION:
+      return {
+        ...state,
+        tempoOscilation: action.payload
+      }
   }
 
   return state;

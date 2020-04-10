@@ -5,7 +5,11 @@ import { expect } from 'chai';
 
 import { DrumSettings } from './DrumSettings';
 
-import { updateTempo } from 'state/actions/drumSettingsActions';
+import {
+  updateTempo,
+  updateBeatOffset,
+  updateTempoOscilation
+ } from 'state/actions/drumSettingsActions';
 
 import TempoEdit from './TempoEdit';
 import PhraseLengthEdit from './PhraseLengthEdit';
@@ -16,9 +20,13 @@ describe('Drum settings', () => {
   beforeAll(() => {
     const props = {
       settings: {
-        tempo: 1
+        tempo: 1,
+        beatOffset: 0,
+        tempoOscilation: 0
       },
-      updateTempo: updateTempo
+      updateTempo: updateTempo,
+      updateBeatOffset: updateBeatOffset,
+      updateTempoOscilation: updateTempoOscilation
     };
 
     wrapper = shallow(<DrumSettings {...props}/>);

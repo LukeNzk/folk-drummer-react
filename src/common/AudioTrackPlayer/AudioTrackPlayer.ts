@@ -26,7 +26,6 @@ class AudioTrackPlayer {
     this._clips = [];
     this._audioUtils = audio as AudioUtils;
     this.loadClips();
-    this._tempoOscilator.setOscilationValue(10);
   }
 
   setOnBeatChanged = (callback: BeatChangedCallback) => {
@@ -151,6 +150,7 @@ class AudioTrackPlayer {
   get generator() { return this._trackGenerator; }
 
   setBeatOffset = (index: number, val: number) => this._trackGenerator.setOffset(index, val);
+  setTempoOscilation = (val: number) => this._tempoOscilator.setOscilationValue(val);
 }
 
 export default AudioTrackPlayer;

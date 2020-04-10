@@ -1,6 +1,10 @@
 import { combineReducers } from 'redux';
 import { drumSettingsReducer } from './reducers/drumSettingsReducer';
-import { updateTempo, updateBeatOffset } from './actions/drumSettingsActions';
+import {
+  updateTempo,
+  updateBeatOffset,
+  updateTempoOscilation
+} from './actions/drumSettingsActions';
 
 const rootReducer = combineReducers({
   drumSettings: drumSettingsReducer
@@ -9,4 +13,4 @@ const rootReducer = combineReducers({
 export default rootReducer;
 export type RootState = ReturnType<typeof rootReducer>;
 
-export { updateTempo, updateBeatOffset }
+export { updateTempo, updateBeatOffset, updateTempoOscilation }

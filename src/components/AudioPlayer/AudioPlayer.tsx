@@ -16,6 +16,7 @@ const updatePlayer = (settings: DrumSettingsState) => {
   const gen = player.generator;
   gen.bpm = settings.tempo;
   gen.setOffset(1, settings.beatOffset);
+  player.setTempoOscilation(settings.tempoOscilation);
 }
 
 type Props = ReturnType<typeof mapState>
