@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import { 
   connect, 
@@ -15,11 +15,8 @@ import {
 } from 'state';
 
 import TempoEdit from './TempoEdit';
-import PhraseLengthEdit from './PhraseLengthEdit';
 import BeatOffsetEdit from './BeatOffsetEdit';
 import TempoOscilationEdit from './TempoOscilationEdit';
-
-import Typography from '@material-ui/core/Typography';
 
 const mapState = (state: RootState) => ({
   settings: state.drumSettings

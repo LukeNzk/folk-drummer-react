@@ -1,4 +1,4 @@
-import React, { useState, useContext, useCallback, useMemo } from 'react';
+import React, { useState, useContext, useCallback, useMemo, useEffect } from 'react';
 import { connect } from 'react-redux';
 import PlayButton from './PlayButton';
 import { AudioUtilsContext } from 'common/AudioUtils';
@@ -34,11 +34,16 @@ function AudioPlayer(props: Props) {
 
   const onKeyDown = (e:  KeyboardEvent) => {
     if (e.code === 'Space') {
+      e.preventDefault();
+
       handleTogglePlaying();
     }
   }
   
-  document.addEventListener('keydown', onKeyDown, false);
+  useEffect(() => { 
+    document.body.addEventListener('keyup', onKeyDown, false);
+    return () => document.body.removeEventListener('keyup', onKeyDown, false);
+  });
 
   useMemo(() => {
     if (isUndefined(player)) {
@@ -61,12 +66,12 @@ function AudioPlayer(props: Props) {
 
     if (!isPlaying) {
       player.start();
+      togglePlaying(true);
     }
     else {
       player.stop();
+      togglePlaying(false);
     }
-
-    togglePlaying(!isPlaying);
   };
 
   return (
