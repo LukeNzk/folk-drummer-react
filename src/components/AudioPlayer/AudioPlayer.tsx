@@ -10,12 +10,12 @@ import Timeline from './Timeline';
 import Grid from '@material-ui/core/Grid';
 import BeatInfo from 'common/AudioTrackGenerator/BeatInfo'; // eslint-disable-line no-unused-vars
 
-
 let player: AudioTrackPlayer;
 
 const updatePlayer = (settings: DrumSettingsState) => {
   const gen = player.generator;
   gen.bpm = settings.tempo;
+  gen.setOffset(1, settings.beatOffset);
 }
 
 type Props = ReturnType<typeof mapState>
