@@ -15,7 +15,7 @@ class AudioTrackPlayer {
   private _timeSinceLastBeat = 0;
   private _currentBeat: BeatInfo | null = null;
 
-  private _onBeatChanged: (beat: BeatInfo) => void;
+  private _onBeatChanged: BeatChangedCallback;
 
   constructor(
     audio: AudioUtils | undefined, 
@@ -80,7 +80,8 @@ class AudioTrackPlayer {
       return this._clips[0];
     }
     else {
-      return this._clips[2];
+      const r = Math.floor(Math.random() + 1);
+      return this._clips[r];
     }
   }
 
@@ -92,13 +93,21 @@ class AudioTrackPlayer {
     this._timeSinceLastBeat += dt;
     const offset = this._currentBeat.offset;
     const time = this._currentBeat.time;
-    const interval = time + offset;
+    const timeOffset = time * offset;
+    const interval = time + timeOffset;
     if (this._timeSinceLastBeat >= interval) {
+      this._timeSinceLastBeat -= time;
+      let clip = this.getClipProvider(this._currentBeat.index).next();
+
+      const skippingBeatChance = [0.0, 0.0, 0.2];
+      const skippingBeatRnd = Math.random();
+      const skipBeat = (skippingBeatRnd < skippingBeatChance[this._currentBeat.index]);
+
       this.nextBeat();
 
-      this._timeSinceLastBeat -= time;
-      const clip = this.getClipProvider(this._currentBeat.index).next();
-
+      if (skipBeat) {
+        clip = this.getClipProvider(this._currentBeat.index).next();
+      }
       if (clip.buffer) {
         this._audioUtils.play(clip.buffer);
       }
@@ -106,8 +115,9 @@ class AudioTrackPlayer {
   }
 
   private nextBeat = () => {
-    this._currentBeat = this._trackGenerator.next();
-    this._onBeatChanged(this._currentBeat);
+    const nextBeat = this._trackGenerator.next();
+    this._currentBeat && this._onBeatChanged(this._currentBeat);
+    this._currentBeat = nextBeat;
   }
   
   start = () => {
@@ -131,6 +141,8 @@ class AudioTrackPlayer {
   }
 
   get generator() { return this._trackGenerator; }
+
+  setBeatOffset = (index: number, val: number) => this._trackGenerator.setOffset(index, val);
 }
 
 export default AudioTrackPlayer;
