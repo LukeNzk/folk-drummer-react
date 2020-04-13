@@ -6,11 +6,12 @@ import Typography from '@material-ui/core/Typography';
 
 interface Props {
   onChange: (val: number) => void;
+  onCommit: (val: number) => void;
   value: number;
 }
 
 function BeatOffsetEdit(props: Props) {
-  const { value, onChange } = props;
+  const { value, onChange, onCommit } = props;
 
   const handleValueChange = (val: number | number[]) => {
     if (typeof val === 'number') {
@@ -21,6 +22,16 @@ function BeatOffsetEdit(props: Props) {
       throw new Error("Multi-slider is not supported.");
     }
   }
+
+  const handleCommit = (val: number | number[]) => {
+    if (typeof val === 'number') {
+      onCommit(val);
+    }
+    else {
+      throw new Error("Multi-slider is not supported.");
+    }
+  };
+
   return (
     <React.Fragment>
       <Typography variant="h5">Second beat offset</Typography>
@@ -32,6 +43,7 @@ function BeatOffsetEdit(props: Props) {
             min={-100}
             max={100}
             onChange={(e, val) => handleValueChange(val)}
+            onChangeCommitted={(e, val) => handleCommit(val)}
           />
         </Grid>
         <Grid item>

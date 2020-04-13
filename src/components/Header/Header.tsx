@@ -12,7 +12,7 @@ function Header(props: Props) {
   return (
     <React.Fragment>
       <Typography variant="h4">{text}</Typography>
-      <img src={headerImage} width="396"/>
+      <img src={headerImage} width="396" alt="raszewski.org"/>
       <Typography variant="body2">The recorded instrument was made by Mateusz Raszewski. You can order one at <Link href="raszewski.org">raszewski.org</Link> </Typography>
     </React.Fragment>
   );

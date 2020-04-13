@@ -6,11 +6,12 @@ import Typography from '@material-ui/core/Typography';
 
 interface TempoEditProps {
   onChange: (val: number) => void;
+  onCommit: (val: number) => void;
   value: number;
 }
 
 const TempoEdit = (props : TempoEditProps) => {
-  const { value, onChange } = props;
+  const { value, onChange, onCommit } = props;
 
   const handleValueChange = (val: number | number[]) => {
     if (typeof val === 'number') {
@@ -19,7 +20,16 @@ const TempoEdit = (props : TempoEditProps) => {
     else {
       throw new Error("Multi-slider is not supported.");
     }
-  }
+  };
+  
+  const handleCommit = (val: number | number[]) => {
+    if (typeof val === 'number') {
+      onCommit(val);
+    }
+    else {
+      throw new Error("Multi-slider is not supported.");
+    }
+  };
 
   return (
     <React.Fragment>
@@ -31,6 +41,7 @@ const TempoEdit = (props : TempoEditProps) => {
             min={60}
             max={360}
             onChange={(e, val) => handleValueChange(val)}
+            onChangeCommitted={(e, val) => handleCommit(val)}
           />
         </Grid>
         <Grid item>

@@ -3,7 +3,10 @@ import { drumSettingsReducer } from './reducers/drumSettingsReducer';
 import {
   updateTempo,
   updateBeatOffset,
-  updateTempoOscilation
+  updateTempoOscilation,
+  commitTempo,
+  commitBeatOffset,
+  commitTempoOscilation
 } from './actions/drumSettingsActions';
 
 const rootReducer = combineReducers({
@@ -13,4 +16,5 @@ const rootReducer = combineReducers({
 export default rootReducer;
 export type RootState = ReturnType<typeof rootReducer>;
 
-export { updateTempo, updateBeatOffset, updateTempoOscilation }
+export { updateTempo, updateBeatOffset, updateTempoOscilation,
+  commitTempo, commitBeatOffset, commitTempoOscilation }
