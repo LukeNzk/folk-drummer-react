@@ -1,5 +1,14 @@
 import React, { useState, useContext, useCallback, useMemo, useEffect } from 'react';
-import { connect } from 'react-redux';
+import { connect,
+  ConnectedProps // eslint-disable-line no-unused-vars  
+ } from 'react-redux';
+
+import { 
+  Dispatch, // eslint-disable-line no-unused-vars  
+  bindActionCreators 
+} from 'redux';
+
+import { togglePlayback } from 'state'
 import PlayButton from './PlayButton';
 import { AudioUtilsContext } from 'common/AudioUtils';
 import AudioTrackPlayer from 'common/AudioTrackPlayer';
@@ -19,7 +28,17 @@ const updatePlayer = (settings: DrumSettingsState) => {
   player.setTempoOscilation(settings.tempoOscilation);
 }
 
-type Props = ReturnType<typeof mapState>
+const mapState = (state: RootState) => {
+  return { settings: state.drumSettings };
+}
+
+const mapDispatch = (dispatch: Dispatch) => bindActionCreators({
+  togglePlayback
+}, dispatch);
+
+const connector = connect(mapState, mapDispatch);
+
+type Props = ConnectedProps<typeof connector>
 
 function AudioPlayer(props: Props) {
   const { settings } = props;
@@ -35,7 +54,6 @@ function AudioPlayer(props: Props) {
   const onKeyDown = (e:  KeyboardEvent) => {
     if (e.code === 'Space') {
       e.preventDefault();
-
       handleTogglePlaying();
     }
   }
@@ -67,10 +85,12 @@ function AudioPlayer(props: Props) {
     if (!isPlaying) {
       player.start();
       togglePlaying(true);
+      props.togglePlayback(true);
     }
     else {
       player.stop();
       togglePlaying(false);
+      props.togglePlayback(false);
     }
   };
 
@@ -86,8 +106,4 @@ function AudioPlayer(props: Props) {
   );
 }
 
-const mapState = (state: RootState) => {
-  return { settings: state.drumSettings };
-}
-
-export default connect(mapState)(AudioPlayer);
+export default connector(AudioPlayer);

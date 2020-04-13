@@ -6,7 +6,8 @@ import {
   updateTempoOscilation,
   commitTempo,
   commitBeatOffset,
-  commitTempoOscilation
+  commitTempoOscilation,
+  togglePlayback
 } from './actions/drumSettingsActions';
 
 const rootReducer = combineReducers({
@@ -17,4 +18,5 @@ export default rootReducer;
 export type RootState = ReturnType<typeof rootReducer>;
 
 export { updateTempo, updateBeatOffset, updateTempoOscilation,
-  commitTempo, commitBeatOffset, commitTempoOscilation }
+  commitTempo, commitBeatOffset, commitTempoOscilation,
+  togglePlayback }

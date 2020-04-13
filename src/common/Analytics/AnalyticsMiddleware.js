@@ -1,7 +1,8 @@
 import {
   COMMIT_TEMPO,
   COMMIT_BEAT_OFFSET,
-  COMMIT_TEMPO_OSCILATION
+  COMMIT_TEMPO_OSCILATION,
+  TOGGLE_PLAYBACK
 } from 'state/types';
 
 import AnalyticsWrapper from './AnalyticsWrapper';
@@ -17,6 +18,9 @@ const analyticsMiddleware = store => next => action => { // eslint-disable-line 
       console.log(action);
       break;
     case COMMIT_TEMPO_OSCILATION:
+      console.log(action);
+      break;
+    case TOGGLE_PLAYBACK:
       console.log(action);
       break;
     default:
