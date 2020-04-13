@@ -4,9 +4,9 @@ import {
   COMMIT_TEMPO_OSCILATION
 } from 'state/types';
 
-import AnalyticsWrapper from './AnalyticsWrapper'; // eslint-disable-line no-unused-vars
+import AnalyticsWrapper from './AnalyticsWrapper';
 
-// const analytics = new AnalyticsWrapper();
+const analytics = new AnalyticsWrapper();
 
 const analyticsMiddleware = store => next => action => { // eslint-disable-line no-unused-vars
   switch (action.type) {

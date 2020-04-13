@@ -108,3 +108,4 @@ dist
 .firebaserc
 .firebase/
 firebase.json
+firebase_config.js

@@ -1,9 +1,6 @@
 import app from 'firebase/app';
-// import analytics from 'firebase/analytics';
-
-const config = {
-
-};
+import 'firebase/analytics';
+import config from 'firebase_config';
 
 export default class Analytics {
   private _analytics: app.analytics.Analytics;
