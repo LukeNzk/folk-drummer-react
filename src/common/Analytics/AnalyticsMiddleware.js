@@ -12,16 +12,16 @@ const analytics = new AnalyticsWrapper();
 const analyticsMiddleware = store => next => action => { // eslint-disable-line no-unused-vars
   switch (action.type) {
     case COMMIT_TEMPO:
-      console.log(action);
+      analytics.setTempo(action.payload);
       break;
     case COMMIT_BEAT_OFFSET:
-      console.log(action);
+      analytics.setSecondBeatOffset(action.payload);
       break;
     case COMMIT_TEMPO_OSCILATION:
-      console.log(action);
+      analytics.setTempoOscilation(action.payload);
       break;
     case TOGGLE_PLAYBACK:
-      console.log(action);
+      analytics.playButtonEvent(action.payload);
       break;
     default:
   }
