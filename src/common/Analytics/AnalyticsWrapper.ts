@@ -14,18 +14,18 @@ export default class Analytics {
   }
 
   playButtonEvent(toggle: boolean) {
-    this.logEvent("play_button", { value: toggle});
+    this.logEvent("play_button", { enabled: toggle.toString()});
   }
 
   setTempo(value: number) {
-    this.logEvent("set_tempo", { value: value });
+    this.logEvent("set_tempo", { tempo: value });
   }
 
   setSecondBeatOffset(value: number) {
-    this.logEvent("set_second_beat_offset", { value: value });
+    this.logEvent("set_second_beat_offset", { offset: value });
   }
 
   setTempoOscilation(value: number) {
-    this.logEvent("set_tempo_oscilation", { value: value });
+    this.logEvent("set_tempo_oscilation", { oscilation: value });
   }
 }
